@@ -13,6 +13,11 @@ pipeline {
             }
         }
         stage('Unit Test') {
+            agent {
+                docker {
+                    image 'python:3.12-slim'
+                }
+            }
             steps {
                 dir('microservice-python') {
                     sh 'pip install -r requirements.txt'
