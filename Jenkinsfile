@@ -22,7 +22,7 @@ pipeline {
             steps {
                 dir('microservice-python') {
                     sh 'pip install --no-cache-dir -r requirements.txt'
-                    sh 'pytest test_app.py'
+                    sh 'pytest test_app.py --junitxml=results.xml'
                 }
             }
         }
@@ -53,7 +53,7 @@ pipeline {
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: 'microservice-python/*.py', allowEmptyArchive: true
-                junit 'microservice-python/*.xml'
+                junit 'microservice-python/results.xml'
             }
         }
     }
