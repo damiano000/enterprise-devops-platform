@@ -22,7 +22,7 @@ pipeline {
             steps {
                 dir('microservice-python') {
                     sh 'pip install --no-cache-dir -r requirements.txt'
-                    sh 'pytest test_app.py --junitxml=results.xml'
+                    sh 'pytest test_app.py --junitxml=results.xml test_app.py'
                 }
             }
         }
