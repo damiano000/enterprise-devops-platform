@@ -17,12 +17,13 @@ pipeline {
                 docker {
                     image 'python:3.12-slim'
                     args '-u root' // Run as root to avoid permission issues
+                    reuseNode true // Reuse the node for subsequent stages
                 }
             }
             steps {
                 dir('microservice-python') {
                     sh 'pip install --no-cache-dir -r requirements.txt'
-                    sh 'pytest test_app.py --junitxml=results.xml test_app.py'
+                    sh 'pytest --junitxml=results.xml'
                 }
             }
         }
