@@ -20,7 +20,7 @@ pipeline {
             }
             steps {
                 dir('microservice-python') {
-                    sh 'pip install -r requirements.txt'
+                    sh 'pip install --no-cache-dir --root-user-action=ignore -r requirements.txt'
                     sh 'pytest test_app.py'
                 }
             }
