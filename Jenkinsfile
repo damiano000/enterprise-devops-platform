@@ -16,11 +16,12 @@ pipeline {
             agent {
                 docker {
                     image 'python:3.12-slim'
+                    args '-u root' // Run as root to avoid permission issues
                 }
             }
             steps {
                 dir('microservice-python') {
-                    sh 'pip install --no-cache-dir --root-user-action=ignore -r requirements.txt'
+                    sh 'pip install --no-cache-dir -r requirements.txt'
                     sh 'pytest test_app.py'
                 }
             }
