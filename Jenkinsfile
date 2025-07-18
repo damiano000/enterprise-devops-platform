@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'damianomirante/vops-microservice'
+        IMAGE_NAME = 'damiano000/vops-microservice'
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
     }
 
