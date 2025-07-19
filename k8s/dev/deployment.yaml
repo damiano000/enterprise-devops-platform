@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vops-microservice
+  namespace: vops-dev
+  labels:
+    app: vops-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vops-microservice
+  template:
+    metadata:
+      labels:
+        app: vops-microservice
+    spec:
+      containers:
+        - name: vops-microservice
+          image: damiano000/vops-microservice:v10
+          ports:
+            - containerPort: 5000
+          env:
+            - name: ENV
+              value: "dev"
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 2
+            periodSeconds: 5

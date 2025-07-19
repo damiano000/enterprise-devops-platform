@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vops-microservice
+  namespace: vops-prod
+spec:
+  type: ClusterIP
+  selector:
+    app: vops-microservice
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
