@@ -27,6 +27,16 @@ pipeline {
                 }
             }
         }
+
+        stage('Backup Test Report on S3') {
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-devops-creds']]) {
+                    dir('microservice-python') {
+                        sh ' aws s3 cp results.xml s3://vops-logs-fc870d54/results-latest.xml'
+                    }
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 dir('microservice-python') {
