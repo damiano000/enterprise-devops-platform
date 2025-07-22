@@ -32,7 +32,7 @@ pipeline {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-devops-creds']]) {
                     dir('microservice-python') {
-                        sh ' aws s3 cp results.xml s3://vops-logs-fc870d54/results-latest.xml'
+                        sh ' aws s3 cp results.xml s3://vops-logs-c02e3cc2/results-latest.xml'
                     }
                 }
             }
