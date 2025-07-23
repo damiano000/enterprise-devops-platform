@@ -4,6 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'damiano000/vops-microservice'
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
+        BACKUP_ON_S3 = 'false'
     }
 
     stages {
@@ -27,8 +28,20 @@ pipeline {
                 }
             }
         }
+        stage('Local Artifact Backup') {
+            steps {
+                dir('microservice-python') {
+                    sh 'mkdir -p backup'
+                    sh 'cp results.xml backup/results.xml'
+                    sh 'cp *.py backup/'
+                }
+            }
+        }
 
         stage('Backup Test Report on S3') {
+            when {
+                expression { env.BACKUP_ON_S3 == 'true' }
+            }
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-devops-creds']]) {
                     dir('microservice-python') {
@@ -65,6 +78,7 @@ pipeline {
             steps {
                 archiveArtifacts artifacts: 'microservice-python/*.py', allowEmptyArchive: true
                 junit 'microservice-python/results.xml'
+                archiveArtifacts artifacts: 'microservice-python/backup/*', allowEmptyArchive: true
             }
         }
     }
