@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: vops-microservice
-          image: damiano000/vops-microservice:v10
+          image: damiano000/vops-microservice:v17
           ports:
             - containerPort: 5000
           env:
