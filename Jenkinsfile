@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'damiano000/vops-microservice'
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
-        BACKUP_ON_S3 = 'false'
+        BACKUP_ON_S3 = 'true'
     }
 
     stages {
