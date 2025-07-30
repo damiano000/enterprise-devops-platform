@@ -51,8 +51,8 @@ pipeline {
         }
         stage('Validate K8s Manifest') {
             steps {
-                    sh 'kubectl apply --dry-run=client --validate=false -f k8s/dev/'
-                    sh 'kubectl apply --dry-run=client --validate=false -f k8s/prod/'
+                    sh 'kubeval k8s/dev/*.yaml'
+                    sh 'kubeval k8s/prod/*.yaml'
             }
         }
         stage('Build Docker Image') {
