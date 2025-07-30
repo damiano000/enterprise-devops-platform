@@ -24,4 +24,4 @@ RUN curl -sSL https://github.com/instrumenta/kubeval/releases/latest/download/ku
 
 USER jenkins
 
-#ok2
+#ok233
