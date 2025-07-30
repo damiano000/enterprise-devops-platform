@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'damiano000/vops-microservice'
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
-        BACKUP_ON_S3 = 'true'
+        BACKUP_ON_S3 = 'false'
     }
 
     stages {
@@ -37,7 +37,6 @@ pipeline {
                 }
             }
         }
-
         stage('Backup Test Report on S3') {
             when {
                 expression { env.BACKUP_ON_S3 == 'true' }
@@ -50,7 +49,16 @@ pipeline {
                 }
             }
         }
+        stage('Validate K8s Manifest') {
+            steps {
+                    sh 'kubeval k8s/dev/*.yaml'
+                    sh 'kubeval k8s/prod/*.yaml'
+            }
+        }
         stage('Build Docker Image') {
+            when {
+                branch 'main'
+            }
             steps {
                 dir('microservice-python') {
                     script {
@@ -63,6 +71,9 @@ pipeline {
             }
         }
         stage('Push Docker Hub') {
+            when {
+                branch 'main'
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
