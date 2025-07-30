@@ -18,7 +18,7 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl && \
     rm kubectl
 
-RUN wget -qO- https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz \
+RUN curl -sSL https://github.com/instrumenta/kubeval/releases/latest/download/kubeval-linux-amd64.tar.gz \
     | tar xz && mv kubeval /usr/local/bin/
 
 USER jenkins
