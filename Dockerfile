@@ -23,3 +23,5 @@ RUN curl -sSL https://github.com/instrumenta/kubeval/releases/latest/download/ku
     | tar xz && mv kubeval /usr/local/bin/
 
 USER jenkins
+
+#ok
