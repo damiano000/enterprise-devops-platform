@@ -43,7 +43,7 @@ spec:
         - name: app
           image: damiano000/vops-microservice:canary
           ports:
-            - containerPort: 80
+            - containerPort: 5000
 ---
 apiVersion: v1
 kind: Service
@@ -55,4 +55,4 @@ spec:
     app: microservice
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 5000
