@@ -32,12 +32,12 @@ def health():
     log_event = {'level': 'INFO', 'message': 'Health check ok', 'endpoint': '/health'}
     app.logger.info('Health check ok', extra={'endpoint': '/health'})
     send_log_to_splunk(log_event)
-    return jsonify({'status': 'ok'}), 200
+    return jsonify({'status': 'ok', 'version': 'canary'}), 200
 
 @app.route('/log', methods=['GET'])
 def log():
     app.logger.info('Example event log', extra={'event': 'log', 'custom_field': 'test'})
-    return jsonify({'log': 'generated'}), 200
+    return jsonify({'log': 'generated', 'version': 'canary'}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
