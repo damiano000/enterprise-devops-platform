@@ -1,19 +1,15 @@
-properties([
-  pipelineTriggers([
-    genericTrigger(
-      genericVariables: [
-        [key: 'message', value: '$.message']
-      ],
-      causeString: 'Triggered on ArgoCD Sync: $message',
-      token: 'CANARYTOKEN',
-      printContributedVariables: true,
-      printPostContent: true
-    )
-  ])
-])
-
 pipeline {
     agent any
+
+    triggers {
+        GenericTrigger(
+            genericVariables: [[key: 'message', value: '$.message']],
+            causeString: 'Triggered on ArgoCD Sync: $message',
+            token: 'CANARYTOKEN',
+            printContributedVariables: true,
+            printPostContent: true
+        )
+    }
 
     environment {
         IMAGE_NAME = 'damiano000/vops-microservice'
@@ -125,4 +121,3 @@ pipeline {
         }
     }
 }
-//ok
