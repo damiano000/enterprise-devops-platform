@@ -2,6 +2,10 @@ import app
 
 def test_health():
     client = app.app.test_client()
-    response = client.get('/health')
-    assert response.status_code == 200
-    assert response.get_json() == {'status': 'ok'}
+    resp = client.get("/health")
+
+    assert resp.status_code == 200
+
+    data = resp.get_json()
+
+    assert data["status"] == "ok"
