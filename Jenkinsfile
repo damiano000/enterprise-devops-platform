@@ -1,3 +1,17 @@
+properties([
+  pipelineTriggers([
+    genericTrigger(
+      genericVariables: [
+        [key: 'message', value: '$.message']
+      ],
+      causeString: 'Triggered on ArgoCD Sync: $message',
+      token: 'CANARYTOKEN',
+      printContributedVariables: true,
+      printPostContent: true
+    )
+  ])
+])
+
 pipeline {
     agent any
 
@@ -90,6 +104,18 @@ pipeline {
                 archiveArtifacts artifacts: 'microservice-python/*.py', allowEmptyArchive: true
                 junit 'microservice-python/results.xml'
                 archiveArtifacts artifacts: 'microservice-python/backup/*', allowEmptyArchive: true
+            }
+        }
+        stage('Canary Test') {
+            when {
+                allOf {
+                    branch 'main'
+                    expression { return env.message != null }
+                }
+            }
+            steps {
+                echo "Running canary test after ArgoCD Sync: ${env.message}"
+                sh './tests/test_canary_routing.sh'
             }
         }
     }
